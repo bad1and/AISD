@@ -84,35 +84,30 @@
 #### Временная сложность n
 Такая сложность будет возникать при работе циклов. Суммарное количество инструкций в таком случае получается n×(кол-во инстркуций), где n — число итераций цикла. Если же n явно не задано, то говорят, что алгоритм линейно зависит от размера входных данных
 
-```cpp
-int findMax(std::vector<int> list) {
-  int max = list.first();
-  for (int i = 0; i < list.size();i++) {
-    if (list[i] > max) {
-      max = list[i]
-    }
-  }
-  return max
-}
+```python
+def findMax(lst):
+    max_val = lst[0]
+    for i in range(len(lst)):
+        if lst[i] > max_val:
+            max_val = lst[i]
+    return max_val
 ```
 
 #### Временная сложность n² или n×m
 В случае, если у нас появляются какие-либо вложенные циклы, то итоговое количество итераций перемножается. То есть суммарное количество инструкций = n×m×(кол-во инстркуций). 
 В частном случае, если n=m, то можно говорить о "квадратичной зависимости"
-```cpp
-bool isIdentityMatrix(std::vector<int>: list) {
-  for (int i = 0; i < list.size(); i++) {
-    int row = list[i]
-    if (row.index() != list.size()) {
-      return false;
-    }
-    for (int j  = 0, j < list.size(); j++) {
-      if (j == i && row[i] != 1) return false;
-      if (j != i && row[i] != 0) return false;
-    }
-  }
-  return true
-}
+```python
+def isIdentityMatrix(mat):
+    for i in range(len(mat)):
+        row = mat[i]
+        if len(row) != len(mat):
+            return False
+        for j in range(len(mat)):
+            if j == i and row[j] != 1:
+                return False
+            if j != i and row[j] != 0:
+                return False
+    return True
 ```
 
 #### Пример для понимания разницы в сложности 
@@ -138,21 +133,17 @@ $$\frac{50×10:{7}×\log_{2}{10^{7}} \text{ команд}}{10^{10} \text{ ком
 
 #### Лучший и худший случай работы алгоритма
 Как пример — сортировка пузырьком. Как видно из кода, её сложность в среднем $n^2$
-```cpp
-void bubbleSort(int arr[], int n) { 
-	for (int i = 0; i < n - 1; i++) { 
-		bool swapped = false; 
-		for (int j = 0; j < n-i-1; j++) { 
-			if (arr[j] > arr[j+1]) { 
-				swap(arr[j], arr[j+1]); 
-				swapped = true; 
-				} 
-			} 
-	if (!swapped) { 
-		break; 
-		} 
-	}
-}
+```python
+def bubbleSort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        swapped = False
+        for j in range(n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break
 ```
 
 Однако, если же массив уже будет отсортирован, то алгоритм один единственный раз пройдётся по массиву, то есть $n$ раз выполнить проверку на отсортироанность, и закончит работу. А если же массив будет неотсортированн, то сложность будет $n^2$. 
@@ -237,32 +228,30 @@ Aлгоритм поиска элемента в массиве или спис�
 
 Временная сложность: Худшая: $O(n)$ | Средняя: $O(n)$ | Лучшая: $O(1)$
 
-```cpp
-int linear_search(vector<int>& arr, int x) {  
-            for(int i = 0; i < arr.size() ; i++){  
-                        if (arr[i] == x) return i;  
-            }  
-            return -1;  
-}
+```python
+def liner_search(alf , text):
+    for x in range(len(alf)):
+        if alf[x] == text:
+            return x
+    return None
 ```
 
 #### Бинарный поиск 
 Aлгоритм поиска элемента в массиве, который последовательно делит пополам заранее отсортированный массив и сравнивает серединный элемент с искомым и продолжает делить массив пока не найдёт искомый элемент.
 
 Временная сложность: Худшая: O(log n), Средняя: O(log n), Лучшая: O(1).
-```cpp
-Int binary_search(vector<int>& arr, int left, int right, int x) {  
-            while (1) {  
-                int midd = (left + right) / 2;  
-                if (x < arr[midd]) 
-                    right = midd – 1;  
-                else if (x > arr[midd])
-                    left = midd + 1;  
-                else return midd;  
-                if (left > right)
-                    return -1;  
-            }  
-}
+```python
+def binary_search(alf, left, right, text):
+    while True:
+        middle = (left + right) // 2
+        if text < alf[middle]:
+            right = middle - 1
+        if text > alf[middle]:
+            left = middle + 1
+        else:
+            return middle
+        if left > right:
+            return None
 ```
 
 
@@ -287,14 +276,19 @@ Int binary_search(vector<int>& arr, int left, int right, int x) {
 **Простой (наивный) поиск**
 Алгоритм заключается в последовательном переборе с сравнением символов строки и образца:
 
-```pseudocode
-for i = 0 to S.length do: 
-  for j = 0 to P.length do: 
-    if S[i + j] != P[j] then break 
-  end for 
-  if j == P.length then return i 
-end for 
-return -1
+```python
+def naive_search(text, pattern):
+    n = len(text)
+    m = len(pattern)
+
+    for i in range(n - m + 1):
+        for j in range(m):
+            if text[i + j] != pattern[j]:
+                break
+        else:  # выполняется, если цикл завершился без break
+            return i
+
+    return -1
 ```
 
 **i** отвечает за сдвиг образца, а внутренний цикл проверяет совпадение символов строки с индексом i+j и символа образца с индексом j. Если символы совпадают на всём участке, подстрока найдена (индекс **i**). 
@@ -313,14 +307,32 @@ return -1
 
 Пример тривиальной хэш-функции: сумма индексов символов строки. При сдвиге обновляется хэш-функция, что ускоряет сравнение. При совпадении проводится проверка строк посимвольно (из-за возможных коллизий).
 
-```pseudocode
-PH = hash(P) 
-SH = hash(S(0, P.length)) 
-for i = 0 to S.length do 
-  if PH == SH and S(i, i + P.length) == P then return i 
-  SH = SH - S[i] + S[i + P.length] 
-end for 
-return -1
+```python
+def rabin_karp_search(S, P):
+    def simple_hash(s):
+        h = 0
+        for c in s:
+            h += ord(c)
+        return h
+
+    n = len(S)
+    m = len(P)
+
+    if m == 0 or n < m:
+        return -1
+
+    original_hash = simple_hash(P)
+    temp_hash = simple_hash(S[0:m])
+
+    for i in range(n - m + 1):
+        if original_hash == temp_hash:
+            if S[i:i + m] == P:
+                return i
+
+        if i < n - m:
+            temp_hash = temp_hash - ord(S[i]) + ord(S[i + m])
+
+    return -1
 ```
 
 Сложность зависит от скорости вычисления хэша.
@@ -328,20 +340,24 @@ return -1
 #### Алгоритм Бойера — Мура
 Сравнение начинается с конца строки, что позволяет пропускать сразу несколько символов. При несовпадении символа сдвиг определяется таблицей, содержащей индексы символов образца:
 
-```pseudocode
-table = create map 
-for i = 0 to P.length - 1 do table[P[i]] = i 
-for i = 0 to S.length do #NEXT 
-  for j = P.length - 1 down to 0 do 
-    if P[j] != S[j + i] then 
-      step = j - table.get(S[j + i], -1) 
-      i += max(step, 1) 
-      go to #NEXT
-    end if
-  end for 
-  return i 
-end for 
-return -1
+```python
+def boyer_moore_search(S, P):
+    table = {}
+    for i in range(len(P)):
+        table[P[i]] = i
+    
+    i = 0
+    while i <= len(S) - len(P):
+        j = len(P) - 1
+        while j >= 0:
+            if P[j] != S[i + j]:
+                step = j - table.get(S[i + j], -1)
+                i += max(step, 1)
+                break
+            j -= 1
+        else:
+            return i
+    return -1
 ```
 Эффективность: **O(N + M)**.
 
@@ -349,16 +365,20 @@ return -1
 Наиболее эффективный алгоритм. Основой является вычисление префикс-функции, показывающей длину наибольшего префикса, совпадающего с суффиксом.
 
 Алгоритм подсчёта:
-```pseudocode
-C = P + '#' + S 
-PI = create array with C.length 
-for i = 1 to C.length do 
-  j = PI[i - 1] 
-  while j > 0 and C[j] != C[i] do j = PI[j - 1] 
-  if C[j] == C[i] then PI[i] = j + 1 
-  if PI[i] == P.length then return TRUE 
-end for 
-return FALSE
+```python
+def kmp_search(S, P):
+    C = P + '#' + S
+    PI = [0] * len(C)
+    
+    for i in range(1, len(C)):
+        j = PI[i - 1]
+        while j > 0 and C[j] != C[i]:
+            j = PI[j - 1]
+        if C[j] == C[i]:
+            PI[i] = j + 1
+        if PI[i] == len(P):
+            return True
+    return False
 ```
 Префикс-функция строится за линейное время, после чего осуществляется поиск образца.
 
@@ -373,18 +393,30 @@ return FALSE
 > 2. Начинаем двигаться по изначальной строке посимвольно. Соответсвенно при сдвиге на один символ новый хэш будет считаться как старый хэш минус индекс прерыдушего символа плюс хэш следующего символа. 
 > 3. При каждом сдвиге на $+1$ символ мы сверяем новый хэш со старым. Если совпадает, то мы нашли индекс, с которого начинается искомая строка
 
-```cpp
-int Rabin_Carp(std::string P) {
-	int original_hash = hash(P)
-	int temp_hash = hash(S(0, P.length))
-	for (int i = 0; i < S.size(); i++){
-	  if (original_hash == temp_hash && S(i, i + P.length) == P){
-		    return i
-		  } 
-	  temp_hash = temp_hash - S[i] + S[i + P.length]
-	}
-	return -1
-}
+```python
+def rabin_karp_search(S, P):
+    def hash(s):
+        h = 0
+        for char in s:
+            h += ord(char)
+        return h
+    
+    n = len(S)
+    m = len(P)
+    
+    if m == 0 or n < m:
+        return -1
+    
+    original_hash = hash(P)
+    temp_hash = hash(S[0:m])
+    
+    for i in range(n - m + 1):
+        if original_hash == temp_hash and S[i:i + m] == P:
+            return i
+        if i < n - m:
+            temp_hash = temp_hash - ord(S[i]) + ord(S[i + m])
+    
+    return -1
 ```
 
 
@@ -410,40 +442,32 @@ int Rabin_Carp(std::string P) {
 
 Реализация:
 Просто проверяем наличие, в целом можно возвращать индексы совпадения, тогда посчитаем вхождения
-```cpp
+```python
 //вычисление префикс-функции
-std::vector<int> computePrefixFunction(const std::string& s) {
-    int n = s.length();
-    std::vector<int> pi(n, 0); // массив префикс-функций инициализируем нулями
+def computePrefixFunction(s):
+    n = len(s)
+    pi = [0] * n
+    
+    for i in range(1, n):
+        j = pi[i - 1]
+        while j > 0 and s[i] != s[j]:
+            j = pi[j - 1]
+        if s[i] == s[j]:
+            j += 1
+        pi[i] = j
+    
+    return pi
 
-    for (int i = 1; i < n; ++i) {
-        int j = pi[i - 1];
-        while (j > 0 && s[i] != s[j]) {
-            j = pi[j - 1];
-        }
-        if (s[i] == s[j]) {
-            ++j;
-        }
-        pi[i] = j;
-    }
-
-    return pi;
-}
-
-//ищем - подстроку pattern в строке text
-bool KMPSearch(const std::string& pattern, const std::string& text) {
-    std::string combined = pattern + "#" + text; //
-    std::vector<int> pi = computePrefixFunction(combined);
-
-    int m = pattern.length();
-    for (size_t i = m + 1; i < combined.length(); ++i) { // Начинаем проверку со следующего символа после разделителя
-        if (pi[i] == m) {
-            return true; // Подстрока найдена
-        }
-    }
-
-    return false; // Подстрока не найдена
-}
+def KMPSearch(pattern, text):
+    combined = pattern + "#" + text
+    pi = computePrefixFunction(combined)
+    
+    m = len(pattern)
+    for i in range(m + 1, len(combined)):
+        if pi[i] == m:
+            return True
+    
+    return False
 ```
 
 
@@ -617,6 +641,42 @@ public:
                         }  
             }
 ```
+```python
+PYTHON
+class DynamicArray:
+    def __init__(self):
+        self.capacity = 10
+        self.size = 0
+        self.data = [0] * self.capacity
+    
+    def __del__(self):
+        pass
+    
+    def resize(self):
+        self.capacity *= 2
+        newData = [0] * self.capacity
+        for i in range(self.size):
+            newData[i] = self.data[i]
+        self.data = newData
+    
+    def add(self, value):
+        if self.size == self.capacity:
+            self.resize()
+        self.data[self.size] = value
+        self.size += 1
+    
+    def remove(self, index):
+        if index < 0 or index >= self.size:
+            return
+        for i in range(index, self.size - 1):
+            self.data[i] = self.data[i + 1]
+        self.size -= 1
+    
+    def print(self):
+        for i in range(self.size):
+            print(self.data[i], end=" ")
+        print()
+```
 
 ## 11. Описание структуры и реализация методов двусвязного списка
 
@@ -672,6 +732,61 @@ void remove(int index) {
                         delete current;  
             }
 ```
+
+```python
+PYTHON
+class mData:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        self.pred = None
+
+class DoubleLinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def __del__(self):
+        while self.head is not None:
+            temp = self.head
+            self.head = self.head.next
+            del temp
+    
+    def add(self, value):
+        if self.head is None:
+            self.head = mData(value)
+        else:
+            temp = self.head
+            while temp.next is not None:
+                temp = temp.next
+            newNode = mData(value)
+            newNode.pred = temp
+            temp.next = newNode
+    
+    def remove(self, index):
+        if index < 0 or self.head is None:
+            return
+        if index == 0:
+            temp = self.head
+            self.head = self.head.next
+            if self.head:
+                self.head.pred = None
+            del temp
+            return
+        
+        current = self.head
+        i = 0
+        while current is not None and i < index:
+            current = current.next
+            i += 1
+        
+        if current is not None:
+            if current.next:
+                current.next.pred = current.pred
+            if current.pred:
+                current.pred.next = current.next
+            del current
+```
+
 ## 12. Описание структуры и методов очереди, кольцевой очереди, стека, деки
 
 #### Очередь 
@@ -691,53 +806,53 @@ void remove(int index) {
 > Методы: push_front(item), push_back(item), pop_front(), pop_back(), front(), back(), empty(), size().
 
 ## 13. Реализация алгоритма сортировочной станции  
-```cpp
-#include <stack>  
-int Prioritet(const string& op){  
-            if (op == “+” || op == “-”) return 1;  
-            if (op == “*” || op == “/”) return 2;  
-            if (op == “^”) return 3;  
-            if (op == “sin” || op == “cos”) return 4;  
-            return 0;  
-}  
-bool is_left_associative(const string& op) {  
-            if (op == “^”) return false;  
-            return true;  
-}
+```python
+PYTHON
+def Prioritet(op):
+    if op in ["+", "-"]:
+        return 1
+    if op in ["*", "/"]:
+        return 2
+    if op == "^":
+        return 3
+    if op in ["sin", "cos"]:
+        return 4
+    return 0
 
-bool is_operator(const string& op){  
-            return token == “+” || token == “-” || token == “*” || token == “/” || token == “^” || token == “sin” || token == “cos”;  
-}  
-bool is_number(const string& token){  
-            return !token.empty() && isdigit(token[0]);  
-}  
-string toPostfix(const string& expression){  
-            stringstream ss(expression);  
-            string token, output;  
-            stack operators;  
-            while (ss >> token){  
-                        if (is_number(token)) output += token + “ “;  
-                        else if (is_operator(token)){  
-                                   while (!operators.is_empty() && is_operator(operators.top()) && ((is_left_associative(token) && prioritet(token) <= prioritet(operators.top())) || (!is_left_associative(token) && prioritet(token) < prioritet(operators.top())))){  
-                                               output += operators.top() + “ “;  
-                                               operators.pop();  
-                                   }  
-                        else if (token == “(“) operators.push(token);  
-                        else if (token == “)”){  
-                                   while (!operators.is_empty() && operators.top() != “(“){  
-                                               output += operators.top() + “ “;  
-                                               operators.pop();  
-                                   }  
-                                   operators.pop();
+def is_left_associative(op):
+    return op != "^"
 
-}  
-while (!operators.is_empty()){  
-            output += operators.top() + “ “;  
-            operators.pop();  
-}  
-return output;
+def is_operator(token):
+    return token in ["+", "-", "*", "/", "^", "sin", "cos"]
 
-}
+def is_number(token):
+    return token and token[0].isdigit()
+
+def toPostfix(expression):
+    tokens = expression.split()
+    output = []
+    operators = []
+    
+    for token in tokens:
+        if is_number(token):
+            output.append(token)
+        elif is_operator(token):
+            while (operators and is_operator(operators[-1]) and 
+                   ((is_left_associative(token) and Prioritet(token) <= Prioritet(operators[-1])) or 
+                    (not is_left_associative(token) and Prioritet(token) < Prioritet(operators[-1])))):
+                output.append(operators.pop())
+            operators.append(token)
+        elif token == "(":
+            operators.append(token)
+        elif token == ")":
+            while operators and operators[-1] != "(":
+                output.append(operators.pop())
+            operators.pop()
+    
+    while operators:
+        output.append(operators.pop())
+    
+    return " ".join(output)
 ```
 
 
@@ -813,57 +928,42 @@ return output;
    При использовании открытой адресации значение помечается удаленным.
 
 ##### Реализация:
-```cpp
+```python
 //разрешение коллизийметодом цепочек
-class HashTable {
-private:
-    std::vector<std::list<std::pair<std::string, int>>> table; // Вектор цепочек (списков)
-    size_t size; // Размер таблицы
-    size_t hashFunction(const std::string& key) const {
-        size_t hash = 0;
-        for (char ch : key) {
-            hash = (hash * 31 + ch) % size; // Простая хэш-функция подходящая для строк
-        }
-        return hash;
-    }
-
-public:
-    HashTable(size_t size) : size(size), table(size) {}
-
-    // Вставка
-    void insert(const std::string& key, int value) {
-        size_t index = hashFunction(key);
-        for (auto& pair : table[index]) {
-            if (pair.first == key) {
-                pair.second = value; // Обновляем значение, если ключ уже существует
-                return;
-            }
-        }
-        table[index].emplace_back(key, value); // Добавляем новую пару
-    }
-
-    int find(const std::string& key) const {
-        size_t index = hashFunction(key);
-        for (const auto& pair : table[index]) {
-            if (pair.first == key) {
-                return pair.second;
-            }
-        }
-        throw std::runtime_error("Key not found");
-    }
-
-    void remove(const std::string& key) {
-        size_t index = hashFunction(key);
-        auto& chain = table[index];
-        for (auto it = chain.begin(); it != chain.end(); ++it) {
-            if (it->first == key) {
-                chain.erase(it);
-                return;
-            }
-        }
-        throw std::runtime_error("Key not found");
-    }
-};
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+    
+    def hashFunction(self, key):
+        hash_val = 0
+        for ch in key:
+            hash_val = (hash_val * 31 + ord(ch)) % self.size
+        return hash_val
+    
+    def insert(self, key, value):
+        index = self.hashFunction(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                pair[1] = value
+                return
+        self.table[index].append([key, value])
+    
+    def find(self, key):
+        index = self.hashFunction(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                return pair[1]
+        raise KeyError("Key not found")
+    
+    def remove(self, key):
+        index = self.hashFunction(key)
+        chain = self.table[index]
+        for i, pair in enumerate(chain):
+            if pair[0] == key:
+                del chain[i]
+                return
+        raise KeyError("Key not found")
 ```
 
 ## 15. Описание структуры двоичного дерева и реализации методов обхода дерева
@@ -916,7 +1016,6 @@ void preOrder(Node* node) {
 - Обойти левое поддерево
 - Посетить корень
 - Обойти правое поддерево
-  🧡
 
 **Пример реализации:**
 ```cpp
