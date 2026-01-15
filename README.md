@@ -215,7 +215,7 @@ $n!=1*2 *...*(n-1)*n$
   - $О(n)$ зависит от количества входных данных. В случае с линейными алгоритмами в худшем случае вам придется провести какую-то операцию с каждый элементом.
   - $O(\log n )$ - Каждая операция уменьшает количество входных данных вдвое.
   - $O(n\log n)$ можно представить в виде комбинации $O(\log n )$ и $O(n)$. 
-    ```cpp
+    ```python
     for (int i = 0; i < n; i++) //выполняется n раз
 	    for (int j = 1; j < n; j = j * 2) // выполняется log раз за 1                                               итерацию верхнего цикла
 	```
@@ -603,7 +603,7 @@ def KMPSearch(pattern, text):
 #### Динамический массив 
 Массив, размер которого может изменяться во время выполнения программы.
 
-```cpp
+```python
 class DynamicArray{  
 private:  
             int* data;  
@@ -682,7 +682,7 @@ class DynamicArray:
 
 #### Двусвязный список 
 Линейная структура данных, в которой каждый элемент содержит ссылки как на предыдущий, так и на следующий элементы, что позволяет легко перемещаться в обоих направлениях.
-```cpp
+```python
 struct mData{  
             int value;  
             mData* next = nullptr;  
@@ -979,13 +979,12 @@ class HashTable:
 **Структура узла**
 Типичная структура узла в двоичном дереве на C++ выглядит следующим образом:
 
-```cpp
-sctruct Node {
-	inr data;
-	Node* left;
-	Node* right;
-	Node(int value) : data(value), left(nullptr), right(nullptr) {}
-}
+```python
+class Node:
+    def __init__(self, value):
+        self.data = value
+        self.left = None
+        self.right = None
 ```
 
 #### Виды обхода дерева
@@ -1003,13 +1002,13 @@ sctruct Node {
 - Обойти правое поддерево.
 
 **Пример реализации:**
-```cpp
-void preOrder(Node* node) {
-    if (node == nullptr) return;
-    std::cout << node->data << " ";
-    preOrder(node->left);
-    preOrder(node->right);
-}
+```python
+def preOrder(node):
+    if node is None:
+        return
+    print(node.data, end=" ")
+    preOrder(node.left)
+    preOrder(node.right)
 ```
 
 2.    **Центрированный (In-order, ЛКП):**
@@ -1018,14 +1017,13 @@ void preOrder(Node* node) {
 - Обойти правое поддерево
 
 **Пример реализации:**
-```cpp
-void inOrder(Node* node)
-{
-	if (node == nullptr) return;
-	inOrdder(node->left);
-	std::cout << node->data << " ";
-	inOrder(node->right);
-}
+```python
+def inOrder(node):
+    if node is None:
+        return
+    inOrder(node.left)
+    print(node.data, end=" ")
+    inOrder(node.right)
 ```
 
 3.    **Обратный (Post-order, ЛПК):**
@@ -1034,14 +1032,13 @@ void inOrder(Node* node)
 - Посетить корень
   
 **Пример реализации:**
-```cpp
-void postOrder(Node* node)
-{
-	if (node == nullptr) return;
-	postOrder(node->left);
-	postOrder(node->right);
-	std::cout << node->data << " ";
-}
+```python
+def postOrder(node):
+    if node is None:
+        return
+    postOrder(node.left)
+    postOrder(node.right)
+    print(node.data, end=" ")
 ```
 
 ##### Обход в ширину (по уровням, Level-order):
@@ -1049,21 +1046,21 @@ void postOrder(Node* node)
 - Используется очередь для последовательного обхода узлов уровня за уровнем.
 
 Пример реализации:
-```cpp
+```python
 #include <queue>
 
-void levelOrder(Node* root)
-{
-	if (root == nullptr) return;
-	std::qurur<Node*> q;
-	q.push(root);
-	while (!q.empty())
-	{
-		Node* current = q.front();
-		if (current->left != nullptr) q.push(current->left);
-		if (current->right != nullptr) q.push(current->right);	
-	}
-}
+def levelOrder(root):
+    if root is None:
+        return
+    q = []
+    q.append(root)
+    while q:
+        current = q.pop(0)
+        print(current.data, end=" ")
+        if current.left is not None:
+            q.append(current.left)
+        if current.right is not None:
+            q.append(current.right)
 ```
 
 
@@ -1089,14 +1086,12 @@ void levelOrder(Node* root)
 BST обеспечивает эффективный поиск, вставку и удаление элементов за время **O(log n)** в среднем. Однако, в случае вырожденного дерева (например, в виде цепочки) время выполнения операций может достигать **O(n)**.
 
 **Структура узла дерева**
- ```cpp
- struct Node{
-	 int data;
-	 Node* left;
-	 Node* right;
-	 
-	 Node(int value) : data(value), left(nullptr), right(nullptr) {}
- };
+ ```python
+class Node:
+    def __init__(self, value):
+        self.data = value
+        self.left = None
+        self.right = None
 ```
 
 #### 1. Добавление узла
@@ -1124,46 +1119,42 @@ BST обеспечивает эффективный поиск, вставку �
 
 **Рекурсивная реализация:**
 
-```cpp
-Node* insert(Node* root, int value)
-{
-	if (root == nullptr) return new Node(value);
-
-	if (value < root->data)
-		root->left = inser(root->left, value); //Добавляем в левое поддерево
-	else if (value > root->data)
-		root->right = insert(root->right, value); //Добавляем в правое поддерево
-
-	return root;
-}
+```python
+def insert(root, value):
+    if root is None:
+        return Node(value)
+    
+    if value < root.data:
+        root.left = insert(root.left, value)
+    elif value > root.data:
+        root.right = insert(root.right, value)
+    
+    return root
 ```
 
 **Итеративная реализация:**
-```cpp
-Node* insertIterative(Node* root, int value) {
-    Node* newNode = new Node(value);
-    if (root == nullptr) 
-        return newNode;
-
-    Node* current = root;
-    Node* parent = nullptr;
-
-    while (current != nullptr) 
-    {
-        parent = current;
-        if (value < current->data) 
-            current = current->left;
-        else 
-            current = current->right;
-	}
-
-    if (value < parent->data) 
-        parent->left = newNode;
-    else 
-        parent->right = newNode;
+```python
+def insertIterative(root, value):
+    newNode = Node(value)
+    if root is None:
+        return newNode
     
-    return root;
-}
+    current = root
+    parent = None
+    
+    while current is not None:
+        parent = current
+        if value < current.data:
+            current = current.left
+        else:
+            current = current.right
+    
+    if value < parent.data:
+        parent.left = newNode
+    else:
+        parent.right = newNode
+    
+    return root
 ```
 
 
@@ -1204,44 +1195,47 @@ Node* insertIterative(Node* root, int value) {
 
 **Рекурсивная реализация:**
 
-```cpp
-Node* findMin(Node* root) {
-    while (root->left != nullptr) {
-        root = root->left; // Минимальный элемент в правом поддереве — самый левый
-    }
-    return root;
-}
+```python
+def findMin(root):
+    """Находит узел с минимальным значением в дереве (самый левый узел)"""
+    while root.left is not None:
+        root = root.left
+    return root
 
-Node* remove(Node* root, int value) {
-    if (root == nullptr) return root; // Узел не найден
-
-    if (value < root->data) 
-        root->left = remove(root->left, value); // Ищем в левом поддереве
-    else if (value > root->data)
-        root->right = remove(root->right, value); // Ищем в правом поддереве
-    else
-    {
-        // Найден узел для удаления
-        if (root->left == nullptr && root->right == nullptr) { // Узел — лист
-            delete root;
-            return nullptr;
-        } else if (root->left == nullptr) { // Узел имеет одного потомка (правого)
-            Node* temp = root->right;
-            delete root;
-            return temp;
-        } else if (root->right == nullptr) { // Узел имеет одного потомка (левого)
-            Node* temp = root->left;
-            delete root;
-            return temp;
-        } else { // Узел имеет двух потомков
-            Node* temp = findMin(root->right); // Находим минимальный узел в правом поддереве
-            root->data = temp->data;          // Заменяем данные текущего узла
-            root->right = remove(root->right, temp->data); // Удаляем минимальный узел
-        }
-    }
-
-    return root; // Возвращаем изменённое дерево
-}
+def remove(root, value):
+    """Удаляет узел с заданным значением из бинарного дерева поиска"""
+    # Базовый случай: если дерево пустое или узел не найден
+    if root is None:
+        return root
+    
+    # Поиск удаляемого узла в дереве
+    if value < root.data:
+        # Ищем в левом поддереве
+        root.left = remove(root.left, value)
+    elif value > root.data:
+        # Ищем в правом поддереве
+        root.right = remove(root.right, value)
+    else:
+        # Найден узел для удаления
+        # Случай 1: узел - лист (нет потомков)
+        if root.left is None and root.right is None:
+            return None
+        # Случай 2: узел имеет только правого потомка
+        elif root.left is None:
+            return root.right
+        # Случай 3: узел имеет только левого потомка
+        elif root.right is None:
+            return root.left
+        # Случай 4: узел имеет двух потомков
+        else:
+            # Находим минимальный узел в правом поддереве
+            temp = findMin(root.right)
+            # Заменяем данные текущего узла данными минимального узла
+            root.data = temp.data
+            # Удаляем минимальный узел из правого поддерева
+            root.right = remove(root.right, temp.data)
+    
+    return root
 ```
 
 1.    **Добавление**: Узлы добавляются рекурсивно или итеративно, соблюдая правила BST.
@@ -1408,44 +1402,90 @@ A  B D  C
 #### Код реализации поворотов
 ##### Малый правый поворот
 **Код (псевдокод):**
-```cpp
-void rotateRight(AVLNode*& root) {
-    AVLNode* newRoot = root->left;
-    root->left = newRoot->right;
-    newRoot->right = root;
-    root = newRoot;
-}
+```python
+def rotateRight(root):
+    """
+    Выполняет правый поворот в AVL-дереве
+    Используется для балансировки при перевесе в левом поддереве
+    
+    Args:
+        root: корень поддерева для поворота
+        
+    Returns:
+        Новый корень поддерева после поворота
+    """
+    # Новым корнем становится левый потомок текущего корня
+    newRoot = root.left
+    # Левый потомок текущего корня становится правым потомком нового корня
+    root.left = newRoot.right
+    # Текущий корень становится правым потомком нового корня
+    newRoot.right = root
+    # Возвращаем новый корень поддерева
+    return newRoot
 ```
 
 ##### Малый левый поворот 
 **Код (псевдокод):**
-```cpp
-void rotateLeft(AVLNode*& root) {
-    AVLNode* newRoot = root->right;
-    root->right = newRoot->left;
-    newRoot->left = root;
-    root = newRoot;
-}
+```python
+def rotateLeft(root):
+    """
+    Выполняет левый поворот в AVL-дереве
+    Используется для балансировки при перевесе в правом поддереве
+    
+    Args:
+        root: корень поддерева для поворота
+        
+    Returns:
+        Новый корень поддерева после поворота
+    """
+    # Новым корнем становится правый потомок текущего корня
+    newRoot = root.right
+    # Правый потомок текущего корня становится левым потомком нового корня
+    root.right = newRoot.left
+    # Текущий корень становится левым потомком нового корня
+    newRoot.left = root
+    # Возвращаем новый корень поддерева
+    return newRoot
 ```
 
 
 ##### Большой правый поворот
 **Код (псевдокод):**
-```cpp
-Node* bigRightRotate (Node* x)
-{
-	x->left = smallleftRotate(x->left);
-	return smallRightRotate(x);
-}
+```python
+def bigRightRotate(x):
+    """
+    Выполняет большой правый поворот (левый-правый поворот) в AVL-дереве
+    Используется, когда перевес в левом поддереве, но его правый потомок выше
+    
+    Args:
+        x: корень поддерева для балансировки
+        
+    Returns:
+        Новый корень сбалансированного поддерева
+    """
+    # Сначала выполняем малый левый поворот для левого потомка
+    x.left = rotateLeft(x.left)
+    # Затем выполняем малый правый поворот для текущего узла
+    return rotateRight(x)
 ```
 ##### Большой левый поворот
 **Код (псевдокод):**
-```cpp
-Node* bigRightRotate (Node* x)
-{
-	x->right = smallrightRotate(x->right);
-	return smallleftRotate(x);
-}
+```python
+def bigLeftRotate(x):
+    """
+    Выполняет большой левый поворот (правый-левый поворот) в AVL-дереве
+    Используется, когда перевес в правом поддереве, но его левый потомок выше
+    
+    Args:
+        x: корень поддерева для балансировки
+        
+    Returns:
+        Новый корень сбалансированного поддерева
+    """
+    # Сначала выполняем малый правый поворот для правого потомка
+    x.right = rotateRight(x.right)
+    # Затем выполняем малый левый поворот для текущего узла
+    return rotateLeft(x)
 ```
 
 Сбалансированные деревья поиска (например, AVL) поддерживают равномерную высоту за счёт ротаций.
@@ -1520,15 +1560,17 @@ Node* bigRightRotate (Node* x)
 - Логарифмическая сложность операций 
 
 Структура узла:
-```c
-struct RBNode
-{
-	key_type key;
-	struct RBNode *left;
-	struct RBNode *right;
-	struct RBNode *parent;
-	char color; // цвет
-};
+```python
+class RBNode:
+    """
+    Узел красно-черного дерева
+    """
+    def __init__(self, key):
+        self.key = key          # Ключ узла
+        self.left = None       # Левый потомок
+        self.right = None      # Правый потомок
+        self.parent = None     # Родительский узел
+        self.color = 'R'       # Цвет узла: 'R' (красный) или 'B' (черный)
 ```
 Если указатели $left$, $right$ равны нулю, то они будут являться указателями на **фиктивные листья**. Таким образом все узлы - внутренние, нелистовые.
 
@@ -1592,48 +1634,56 @@ struct RBNode
 ![[Pasted image 20250119074659.png]]
 
 #### Реализация
-```cpp
-void RBInsert(RBTree *T, RBNode *x) {
-    TreeInsert(T, x); // вставка по правилам двоичного дерева поиска
-    x->color = RED; // добавляемый узел
-
-    while (x != T->root && x->parent->color == RED) {
-        if (x->parent == x->parent->parent->left) {
-            RBNode *y = x->parent->parent->right; // дядя x
-            if (y->color == RED) { // случай 1
-                x->parent->color = BLACK;
-                y->color = BLACK;
-                x->parent->parent->color = RED;
-                x = x->parent->parent;
-            } else {
-                if (x == x->parent->right) { // случай 3
-                    x = x->parent;
-                    LeftRotate(T, x);
-                }
-                x->parent->color = BLACK; // случай 2
-                x->parent->parent->color = RED;
-                RightRotate(T, x->parent->parent);
-            }
-        } else {
-            // Аналогичный код для правого поддерева
-            RBNode *y = x->parent->parent->left; // Дядя x 
-            if (y->color == RED) { // Случай 1 
-	            x->parent->color = BLACK; 
-	            y->color = BLACK; 
-	            x->parent->parent->color = RED; 
-	            x = x->parent->parent; 
-            } else { 
-	            if (x == x->parent->left) { // Случай 3 
-		            x = x->parent; RightRotate(T, x); 
-		        } 
-		        x->parent->color = BLACK; // Случай 2 
-		        x->parent->parent->color = RED; 
-		        LeftRotate(T, x->parent->parent); 
-			}
-        }
-    }
-    T->root->color = BLACK;
-}
+```python
+def RBInsert(T, x):
+    """
+    Вставка узла в красно-черное дерево
+    """
+    # 1. Стандартная вставка как в бинарном дереве поиска
+    TreeInsert(T, x)
+    
+    # 2. Новый узел всегда красится в красный цвет
+    x.color = 'R'
+    
+    # 3. Исправление нарушений свойств красно-черного дерева
+    while x != T.root and x.parent.color == 'R':
+        if x.parent == x.parent.parent.left:  # Родитель - левый потомок
+            y = x.parent.parent.right  # Дядя узла x
+            
+            if y.color == 'R':  # Случай 1: дядя красный
+                x.parent.color = 'B'
+                y.color = 'B'
+                x.parent.parent.color = 'R'
+                x = x.parent.parent
+            else:  # Дядя черный
+                if x == x.parent.right:  # Случай 3: x - правый потомок
+                    x = x.parent
+                    LeftRotate(T, x)
+                
+                # Случай 2: x - левый потомок
+                x.parent.color = 'B'
+                x.parent.parent.color = 'R'
+                RightRotate(T, x.parent.parent)
+        else:  # Родитель - правый потомок (симметричный случай)
+            y = x.parent.parent.left  # Дядя узла x
+            
+            if y.color == 'R':  # Случай 1: дядя красный
+                x.parent.color = 'B'
+                y.color = 'B'
+                x.parent.parent.color = 'R'
+                x = x.parent.parent
+            else:  # Дядя черный
+                if x == x.parent.left:  # Случай 3: x - левый потомок
+                    x = x.parent
+                    RightRotate(T, x)
+                
+                # Случай 2: x - правый потомок
+                x.parent.color = 'B'
+                x.parent.parent.color = 'R'
+                LeftRotate(T, x.parent.parent)
+    
+    # Корень всегда должен быть черным
+    T.root.color = 'B'
 ```
 
 
@@ -1717,71 +1767,122 @@ $N$ - левый сын $F$
 
 ##### Реализация:
 удаление с использованием вспомогательной процедуры восстановления свойств
-```cpp
-// на вход дерево T и n-сын удаленного узла 
-// Функция для восстановления свойств КЧ-дерева после удаления узла
-void RB-DELETE-FIXUP(Tree T, Node n) {
-    while (n != root[T] && color[n] == BLACK) {
-        if (n == left[parent[n]]) {
-            Node b = right[parent[n]]; // b - брат n
-            if (color[b] == RED) { // случай 4
-                color[b] = BLACK;
-                color[parent[n]] = RED;
-                TREE-ROTATE-L(T, parent[n]);
-                b = right[parent[n]]; //теперь у n черный брат
-            }
-            if (color[left[b]] == BLACK && color[right[b]] == BLACK) { // случай 1 или 5
-                color[b] = RED;
-                n = parent[n]; /* при следующем заходе в цикл просмотрим отца n: если он красный, то имел место случай 1 (в цикл не заходим), а если он черный, то имел место случай 5 (продолжаем цикл) */
-            } else {
-                if (color[right[b]] == BLACK) { // случай 3, сводим ко второму
-                    color[left[b]] = BLACK;
-                    color[b] = RED;
-                    RIGHT-ROTATE(T, b);
-                    b = right[parent[n]];
-                }
-                color[b] = color[parent[n]]; // случай 2
-                color[parent[n]] = BLACK;
-                color[right[b]] = BLACK;
-                LEFT-ROTATE(T, parent[n]);
-                n = root[T]; // при попытке зайти в цикл следующий раз процесс прекратится
-            }
-        } else {
-            // симметричный фрагмент с заменой left ↔ right
-        }
-    }
-    color[n] = BLACK;
-}
+```python
+def RB_DELETE_FIXUP(T, n):
+    """
+    Восстановление свойств красно-черного дерева после удаления узла
+    
+    Args:
+        T: красно-черное дерево
+        n: сын удаленного узла, от которого начинается восстановление
+    """
+    while n != T.root and n.color == 'B':
+        if n == n.parent.left:  # n - левый потомок
+            b = n.parent.right  # b - брат n
+            
+            # Случай 4: брат красный
+            if b.color == 'R':
+                b.color = 'B'
+                n.parent.color = 'R'
+                TREE_ROTATE_L(T, n.parent)
+                b = n.parent.right  # теперь у n черный брат
+            
+            # Случай 1 или 5: оба потомка брата черные
+            if b.left.color == 'B' and b.right.color == 'B':
+                b.color = 'R'
+                n = n.parent
+            else:
+                # Случай 3: правый потомок брата черный
+                if b.right.color == 'B':
+                    b.left.color = 'B'
+                    b.color = 'R'
+                    RIGHT_ROTATE(T, b)
+                    b = n.parent.right
+                
+                # Случай 2
+                b.color = n.parent.color
+                n.parent.color = 'B'
+                b.right.color = 'B'
+                LEFT_ROTATE(T, n.parent)
+                n = T.root  # выход из цикла на следующей итерации
+        else:
+            # Симметричный фрагмент для n - правого потомка
+            b = n.parent.left  # b - брат n
+            
+            # Случай 4: брат красный
+            if b.color == 'R':
+                b.color = 'B'
+                n.parent.color = 'R'
+                TREE_ROTATE_R(T, n.parent)
+                b = n.parent.left  # теперь у n черный брат
+            
+            # Случай 1 или 5: оба потомка брата черные
+            if b.right.color == 'B' and b.left.color == 'B':
+                b.color = 'R'
+                n = n.parent
+            else:
+                # Случай 3: левый потомок брата черный
+                if b.left.color == 'B':
+                    b.right.color = 'B'
+                    b.color = 'R'
+                    LEFT_ROTATE(T, b)
+                    b = n.parent.left
+                
+                # Случай 2
+                b.color = n.parent.color
+                n.parent.color = 'B'
+                b.left.color = 'B'
+                RIGHT_ROTATE(T, n.parent)
+                n = T.root  # выход из цикла на следующей итерации
+    
+    n.color = 'B'
 
-/* 
-Функция для удаления узла z из дерева
-На вход подается дерево T и узел z, который необходимо удалить из дерева, возвращается удаленный узел.
-*/
-Node RB-DELETE(Tree T, Node z) {
-    if (left[z] == NULL || right[z] == NULL) { //один из сыновей узла z – фиктивный лист
-        Node y = z;
-    } else {
-        y = TREE-SUCCESSOR(z);
-    }
-    Node x;
-    if (left[y] != NULL) 
-		x = left[y]; //присваиваем x единственного сына y
-    else 
-	    x = right[y];
-    parent[x] = parent[y];
-    if (parent[y] == NULL) 
-	    root[T] = x;
-    else 
-	    if (y == left[parent[y]]) 
-		    left[parent[y]] = x;
-	    else 
-		    right[parent[y]] = x;
-    if (y != z) 
-	    key[z] = key[y];
-    if (color[y] == BLACK) //если удаленный узел y – черный, то вызываем процедуру восстановления, которой передаем его сына
-	    RB-DELETE-FIXUP(T, x);
-    return y;
-}
+
+def RB_DELETE(T, z):
+    """
+    Удаление узла из красно-черного дерева
+    
+    Args:
+        T: красно-черное дерево
+        z: узел для удаления
+        
+    Returns:
+        Удаленный узел
+    """
+    # Определяем узел y для удаления
+    if z.left is None or z.right is None:
+        y = z
+    else:
+        y = TREE_SUCCESSOR(z)
+    
+    # Определяем потомка x узла y
+    if y.left is not None:
+        x = y.left
+    else:
+        x = y.right
+    
+    # Обновляем ссылки родителя
+    if x is not None:
+        x.parent = y.parent
+    
+    # Обновляем корень или ссылку родителя
+    if y.parent is None:
+        T.root = x
+    else:
+        if y == y.parent.left:
+            y.parent.left = x
+        else:
+            y.parent.right = x
+    
+    # Если y не равен z, копируем ключ
+    if y != z:
+        z.key = y.key
+    
+    # Если удаленный узел черный, восстанавливаем свойства
+    if y.color == 'B' and x is not None:
+        RB_DELETE_FIXUP(T, x)
+    
+    return y
 
 ```
 
@@ -1848,7 +1949,7 @@ Node RB-DELETE(Tree T, Node z) {
 	   В данном примере удалили $M$. Предшествующий ей элемент — $L$ был поставлен там, где была $M$
 	   2. Eсли в родителя меньше $t$ ключей, то проверить дочерний элемент $z$, который следует за $k$  в узле $x$. Выполнить аналогичную **случаю 2.1** проверку ключа, который идёт следующий по порядку после ключа $x$. 
 	   3. Если оба потомка $y$ и $z$ (левый и правый от родителя) содержат только $t - 1$ ключ, то добавить $k$ и все ключи из $z$ (правого) в $y$ (левый), после чего из $x$ пропадают $k$ и ссылка на $z$ (остаётся ссылка на элемент $x$, который представляет собой теперь $y+z$), а $y$ содержит теперь ровно $2t - 1$ ключей. После чего удалить пустой узел $z$ и рекурсивно удалить $k$ из $y$.![[Screenshot-2020-12-07-at-16.08.01.png]]
-3.   😃😃😃ПОТОМ😃😃😃
+3.   
     При отсутствии ключа в промежуточных узлах ищем поддерево. Если поддерево содержит только t-1 ключей, но выполнить шаги 1 или 2 для гарантии перехода к узлу содержащему минимум t ключей. Затем рекурсивно удаляем ключ из дочернего узла
 	1. Если поддерево содержит t-1 ключ, но **имеет** непосредственного соседа с не менее чем t ключами:
 	   Добавить в поддерево дополнительный ключ путем переноса ключа из x вниз, а из соседского уза (справа или слева) перенесли ключ в x и обновить ссылку ![[Pasted_image_20250121074406.png]]
@@ -1879,17 +1980,16 @@ Node RB-DELETE(Tree T, Node z) {
 **Реализация**:
 ```python
 def bubble_sort(arr):
-	n = length(arr);
-	for i in range(n):
-		isswapped = False
-		for j in range(0, n-i-1):
-			if arr[j] > arr[j+1]:
-				arr[j], arr[j+1] = arr[j+1], arr[j] #меняем местами
-				isswapped = True
-#Если за весь проход не было перестановок, массив отсортирован
-		if not isswapped:
-			break
-	return arr
+    n = len(arr)
+    for i in range(n):
+        isswapped = False
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                isswapped = True
+        if not isswapped:
+            break
+    return arr
 ```
 ## 26. Описание и реализация алгоритма сортировки вставками (insertion)
 #### Сортировка вставками
@@ -1897,18 +1997,17 @@ def bubble_sort(arr):
 
 Временная сложность: Худшая: O(n^2), Средняя: O(n^2), Лучшая: O(n).
 
-```cpp
-void insertionSort(int arr[], int n){            
-	int i, j, key;            
-	for (i = 1; i < n; i++){                        
-		key = arr[i];                        
-		j = i – 1;                        
-		while(j >= 0 && arr[j] > key){                                   
-			arr[j+1] = arr[j];                                   
-			j = j – 1;  
-		}            
-	arr[j+1] = key;  
-}}
+```python
+def insertionSort(arr):
+    n = len(arr)
+    for i in range(1, n):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j = j - 1
+        arr[j + 1] = key
+    return arr
 ```
 
 ## 27.Описание и реализация алгоритма селекционной сортировки (selection).
@@ -1949,23 +2048,30 @@ void insertionSort(int arr[], int n){           
 
 **Псевдокод**:
 ```pseudo
-for j = 1 to A.length do //идет со второго элта
-	value = A[j]
-	i = j - 1  //идет с первого элта
-	while i >= 0 and A[i] > value do
-		A[i + 1] = value
-		i = i - 1
-	end while
-end for
+# Псевдокод 1: Сортировка вставками (Insertion Sort)
+def insertion_sort(A):
+    # идем со второго элемента (индекс 1)
+    for j in range(1, len(A)):
+        value = A[j]
+        i = j - 1  # идем с первого элемента
+        while i >= 0 and A[i] > value:
+            A[i + 1] = A[i]
+            i = i - 1
+        A[i + 1] = value
+    return A
 ```
 
 ```pseudo2
-for i from 0 to n-1:
-    min_index = i
-    for j from i+1 to n:
-        if array[j] < array[min_index]:
-            min_index = j
-    swap(array[i], array[min_index])
+# Псевдокод 2: Сортировка выбором (Selection Sort)
+def selection_sort(array):
+    n = len(array)
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if array[j] < array[min_index]:
+                min_index = j
+        array[i], array[min_index] = array[min_index], array[i]
+    return array
 ```
 
 1.    Внешний цикл проходит по каждому элементу массива, начиная с первого.
@@ -2015,64 +2121,65 @@ for i from 0 to n-1:
 
 Реализация на C++
 
-```cpp
-void merge(vector<int>& vec, int left, int mid, int right) {
-    int i, j, k;
-    int leftPointer = mid - left + 1;
-    int rightPointer = right - mid;
+```python
+def merge(vec, left, mid, right):
+    """
+    Слияние двух отсортированных подмассивов
+    """
+    left_size = mid - left + 1
+    right_size = right - mid
+    
+    # Создаем временные массивы
+    left_vec = [0] * left_size
+    right_vec = [0] * right_size
+    
+    # Копируем данные во временные массивы
+    for i in range(left_size):
+        left_vec[i] = vec[left + i]
+    for j in range(right_size):
+        right_vec[j] = vec[mid + 1 + j]
+    
+    # Слияние временных массивов обратно в vec[left..right]
+    i = 0  # Индекс для left_vec
+    j = 0  # Индекс для right_vec
+    k = left  # Индекс для vec
+    
+    while i < left_size and j < right_size:
+        if left_vec[i] <= right_vec[j]:
+            vec[k] = left_vec[i]
+            i += 1
+        else:
+            vec[k] = right_vec[j]
+            j += 1
+        k += 1
+    
+    # Копируем оставшиеся элементы left_vec, если есть
+    while i < left_size:
+        vec[k] = left_vec[i]
+        i += 1
+        k += 1
+    
+    # Копируем оставшиеся элементы right_vec, если есть
+    while j < right_size:
+        vec[k] = right_vec[j]
+        j += 1
+        k += 1
 
-    // Create temporary vectors
-    vector<int> leftVec(n1), rightVec(rightPointer);
 
-    // Copy data to temporary vectors
-    for (int i = 0; i < leftPointer; i++) leftVec[i] = vec[left + i];
-    for (int j = 0; j < rightPointer; j++) rightVec[j] = vec[mid + 1 + j];
-
-    // Merge the temporary vectors back into vec[left..right]
-    i = 0;
-    j = 0;
-    k = left;
-    while (i < leftPointer && j < rightPointer) {
-        if (leftVec[i] <= rightVec[j]) {
-            vec[k] = leftVec[i];
-            i++;
-        } else {
-            vec[k] = rightVec[j];
-            j++;
-        }
-        k++;
-    }
-
-    // Copy the remaining elements of leftVec[], if any
-    while (i < leftPointer) {
-        vec[k] = leftVec[i];
-        i++;
-        k++;
-    }
-
-    // Copy the remaining elements of rightVec[], if any
-    while (j < rightPointer) {
-        vec[k] = rightVec[j];
-        j++;
-        k++;
-    }
-}
-
-// The subarray to be sorted is in the index range [left..right]
-void mergeSort(vector<int>& vec, int left, int right) {
-    if (left < right) {
-      
-        // Calculate the midpoint
-        int mid = left + (right - left) / 2;
-
-        // Sort first and second halves
-        mergeSort(vec, left, mid);
-        mergeSort(vec, mid + 1, right);
-
-        // Merge the sorted halves
-        merge(vec, left, mid, right);
-    }
-}
+def merge_sort(vec, left, right):
+    """
+    Сортировка слиянием
+    """
+    if left < right:
+        # Вычисляем середину
+        mid = left + (right - left) // 2
+        
+        # Сортируем первую и вторую половины
+        merge_sort(vec, left, mid)
+        merge_sort(vec, mid + 1, right)
+        
+        # Сливаем отсортированные половины
+        merge(vec, left, mid, right)
 ```
 
 
@@ -2095,30 +2202,44 @@ void mergeSort(vector<int>& vec, int left, int right) {
 **void quicksort()** - рекурсивная функция, которая вызывает саму себя для двух подмассивов — слева и справа от опорного элемента, после того как массив был разделён
 **int partition()** - функция принимает массив и разделяет его на две части относительно опорного элемента. Все элементы, меньшие или равные опорному, перемещаются в левую часть массива, а все элементы большие опорного — в правую. Опорный элемент ставится на свою окончательную позицию.
 Реализация
-```cpp
-// Рекурсивная функция быстрой сортировки 
-void quicksort(vector<int>& A, int p, int r) { 
-	if (p < r) { 
-		int q = partition(A, p, r); // Разбиение массива 
-		quicksort(A, p, q - 1); // Сортировка левой части 
-		quicksort(A, q + 1, r); // Сортировка правой части 
-		} 
-}
+```python
+def quicksort(A, p, r):
+    """
+    Рекурсивная функция быстрой сортировки
+    
+    Args:
+        A: массив для сортировки
+        p: начальный индекс подмассива
+        r: конечный индекс подмассива
+    """
+    if p < r:
+        q = partition(A, p, r)  # Разбиение массива
+        quicksort(A, p, q - 1)  # Сортировка левой части
+        quicksort(A, q + 1, r)  # Сортировка правой части
 
-// Функция для разделения массива на две части 
-int partition(vector<int>& A, int p, int r) { 
-	int x = A[r]; // Опорный элемент 
-	int i = p - 1; // Индекс для меньших элементов 
-	for (int j = p; j < r; j++) 
-	{ 
-		if (A[j] <= x) { 
-		i++; 
-		swap(A[i], A[j]); // Меняем местами A[i] и A[j] 
-		} 
-	} 
-	swap(A[i + 1], A[r]); // Перемещаем опорный элемент на правильную позицию 
-	return i + 1; // Возвращаем индекс опорного элемента 
-}
+
+def partition(A, p, r):
+    """
+    Функция для разделения массива на две части
+    
+    Args:
+        A: массив для разделения
+        p: начальный индекс подмассива
+        r: конечный индекс подмассива
+        
+    Returns:
+        Индекс опорного элемента после разделения
+    """
+    x = A[r]  # Опорный элемент (последний элемент)
+    i = p - 1  # Индекс для меньших элементов
+    
+    for j in range(p, r):
+        if A[j] <= x:
+            i += 1
+            A[i], A[j] = A[j], A[i]  # Меняем местами A[i] и A[j]
+    
+    A[i + 1], A[r] = A[r], A[i + 1]  # Перемещаем опорный элемент на правильную позицию
+    return i + 1  # Возвращаем индекс опорного элемента
 ```
 
 
@@ -2163,37 +2284,36 @@ int partition(vector<int>& A, int p, int r) {
 
 #### Реализация
 ```python
-def heapify(arr, n, i):  
-    largest = i  # Предполагаем, что текущий узел - наибольший    
-    left = 2 * i + 1  # Левый потомок    
-    right = 2 * i + 2  # Правый потомок  
-  
-    # Если левый потомок больше текущего узла    
-    if left < n and arr[left] > arr[largest]:  
-        largest = left    
-    # Если правый потомок больше текущего узла    
-    if right < n and arr[right] > arr[largest]:  
-        largest = right    
-    
-    # Если наибольший элемент не текущий узел    
-    if largest != i:  
-        arr[i], arr[largest] = arr[largest], arr[i]  # Меняем местами  
-  
-        # Рекурсивно вызываем heapify для поддерева        
-        heapify(arr, n, largest)  
-  
-def heap_sort(arr):    
-	n = len(arr)    
-	
-	# Построение максимальной кучи    
-	for i in range(n // 2 - 1, -1, -1):  
-        heapify(arr, n, i)    
-        
-	# Извлечение элементов из кучи    
-	for i in range(n - 1, 0, -1):  
-        arr[0], arr[i] = arr[i], arr[0]  # Перемещаем корень в конец массива  
-        # Восстанавливаем свойство кучи для оставшейся части
-        heapify(arr, i, 0)
+def heapify(arr, n, i):
+    largest = i  # Предполагаем, что текущий узел - наибольший
+    left = 2 * i + 1  # Левый потомок
+    right = 2 * i + 2  # Правый потомок
+    
+    # Если левый потомок больше текущего узла
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+    
+    # Если правый потомок больше текущего узла
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+    
+    # Если наибольший элемент не текущий узел
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # Меняем местами
+        heapify(arr, n, largest)  # Рекурсивно вызываем heapify для поддерева
+
+
+def heap_sort(arr):
+    n = len(arr)
+    
+    # Построение максимальной кучи
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+    
+    # Извлечение элементов из кучи
+    for i in range(n - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # Перемещаем корень в конец массива
+        heapify(arr, i, 0)  # Восстанавливаем свойство кучи для оставшейся части
 ```
 
 ## 31. Описание и реализация алгоритма поразрядных, блочных сортировок и сортировки подсчётом
@@ -2202,37 +2322,43 @@ def heap_sort(arr):   
 Aлгоритм сортировки, который выполняется за линейное время. Сравнение производится поразрядно: сначала сравниваются значения одного крайнего разряда, и элементы группируются по результатам этого сравнения, затем сравниваются значения следующего разряда, и так далее. (d – кол-во разрядов, k – система счисления)
 
 Худшая: O(d*(n + k)), Средняя: O(d*(n + k)), Лучшая: O(d*(n + k)).  
-```cpp
-void radixSort(int arr[], int n){            
-	int m = getMax(arr, n){            
-	for (int exp = 1; m / exp > 0; exp *= 10){                        
-		countSort(arr, n, exp);  
-    }  
-}
+```python
+def radixSort(arr):
+    n = len(arr)
+    m = getMax(arr, n)
+    
+    exp = 1
+    while m // exp > 0:
+        countSort(arr, n, exp)
+        exp *= 10
 ```
 
 #### Сортировка подсчётом
 
 Худшая: O(n+k), Средняя: O(n+k), Лучшая: O(n+k).
 
-```cpp
-void countSort(int arr[], int n, int exp){            
-	int output[n];            
-	int i, count[10] = {0};            
-		for (i = 0; i < n; i++){                        
-			count[(arr[i] / exp) % 10]++;  
-        }            
-        for (i = 1; i < 10; i++){                        
-	        count[i] += count[i-1];  
-		}            
-		for(i = n-1; i >= 0; i--){                        
-		   output[count[(arr[i] / exp) % 10] - 1] = arr[i];                        
-		   count[(arr[i] / exp) % 10]--;  
-		}            
-		for (i = 0; i < n; i++){                        
-			arr[i] = output[i];  
-		}  
-}
+```python
+def countSort(arr, n, exp):
+    output = [0] * n
+    count = [0] * 10
+    
+    # Подсчитываем количество цифр в разряде exp
+    for i in range(n):
+        count[(arr[i] // exp) % 10] += 1
+    
+    # Преобразуем count в префиксную сумму
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    
+    # Заполняем выходной массив в обратном порядке для стабильности
+    for i in range(n - 1, -1, -1):
+        digit = (arr[i] // exp) % 10
+        output[count[digit] - 1] = arr[i]
+        count[digit] -= 1
+    
+    # Копируем отсортированные данные обратно в arr
+    for i in range(n):
+        arr[i] = output[i]
 ```
 
 #### Блочная сортировка
@@ -2240,22 +2366,32 @@ Aлгоритм сортировки, который сортирует масс
 
 Худшая: O(n^2), Средняя: O(n+k), Лучшая: O(n+k). k – среднее число элементов в блоке
 
-```cpp
-void insertionSort(vector<float>& bucket){}  
-void bucketSort(float arr[], int n){  
-            vector<float> b[n];  
-            for (int i = 0; i < n; i++){  
-                        int bi = n * arr[i];  
-                        b[bi].push_back(arr[i]);  
-            }  
-            for (int i = 0; i < n; i++){  
-                        insertionSort(b[i]);  
-            }  
-            int index = 0;  
-            for (int i = 0; i < n; i++){  
-                        for (int j = 0; j < b[i].size(); j++){  
-                                   arr[index++] = b[i][j];  
-}}
+```python
+def insertionSort(bucket):
+    for i in range(1, len(bucket)):
+        key = bucket[i]
+        j = i - 1
+        while j >= 0 and bucket[j] > key:
+            bucket[j + 1] = bucket[j]
+            j -= 1
+        bucket[j + 1] = key
+    return bucket
+
+def bucketSort(arr, n):
+    b = [[] for _ in range(n)]
+    
+    for i in range(n):
+        bi = int(n * arr[i])
+        b[bi].append(arr[i])
+    
+    for i in range(n):
+        insertionSort(b[i])
+    
+    index = 0
+    for i in range(n):
+        for j in range(len(b[i])):
+            arr[index] = b[i][j]
+            index += 1
 ```
 
 
@@ -2407,22 +2543,22 @@ $$[c] -> d:4$$
 $$[d] -> c:3$$
 В коде же его можно реализовать как лист, храняший в себе другой лист.
 Структура элемента главного листа выглядит так:
-```cpp
-struct Data{
-	std::string vertex;
-	std::List<SecondList> secondList;
-	Data* next;
-}
+```python
+class Data1:
+    def __init__(self, vertex):
+        self.vertex = vertex
+        self.secondList = []
+        self.next = None
 ```
 То есть в каждом элементе списка мы храним вершину и список, в котором будет показано с какими ещё вершинами она будет связана.
 
 Структура элемента из второго списка:
-```cpp
-struct Data{
-	int value;
-	std::string vertex;
-	Data* next; 
-}
+```python
+class Data2:
+    def __init__(self, value, vertex):
+        self.value = value
+        self.vertex = vertex
+        self.next = None
 ```
 
 
@@ -2436,7 +2572,7 @@ $$[b,d,9]$$
 $$[c,d,4]$$
 $$[d,c,3]$$
 То есть по сути это:
-```cpp
+```python
 std::list<std::vector> listOfEdges;
 ```
 
@@ -2481,43 +2617,37 @@ $$
 3. Если мы находимся в этаком листе (в конечной точке), а нужная точка ещё не найдена или граф не весь исследован, то мы возвращаемся назад до тех пор, пока не найдём точку у которой есть сосед, к которому мы ещё не ходили, а дальше goto п.2.
 
 Реализация на C++:
-```cpp
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-// Функция для выполнения DFS
-void DFS(int node, const vector<vector<int>>& graph) {
-	vector<bool> visited(graph.size(), false);
-    // Отмечаем текущую вершину как посещённую
-    visited[node] = true;
-    cout << "Visited node: " << node << endl;
-
-    // Рекурсивно проходимся по всем смежным вершинам
-    for (int neighbor : graph[node]) {
-        if (!visited[neighbor]) { // Если мы не посещали эту вершину, 
-							     // то посещаем
-            DFS(neighbor, graph, visited);
-        }
-    }
-}
-
-int main() {
-    // Пример графа (список смежности)
-    vector<vector<int>> graph = {
-        {1, 2},    // Вершина 0 соединена с 1 и 2
-        {0, 3, 4}, // Вершина 1 соединена с 0, 3 и 4
-        {0},       // Вершина 2 соединена с 0
-        {1},       // Вершина 3 соединена с 1
-        {1}        // Вершина 4 соединена с 1
-    };
+```python
+def DFS(node, graph):
+    visited = [False] * len(graph)
     
-    // Запуск DFS с вершины 0
-    DFS(0, graph);
+    def dfs_util(v):
+        visited[v] = True
+        print(f"Visited node: {v}")
+        
+        for neighbor in graph[v]:
+            if not visited[neighbor]:
+                dfs_util(neighbor)
+    
+    dfs_util(node)
 
-    return 0;
-}
+
+def main():
+    # Пример графа (список смежности)
+    graph = [
+        [1, 2],    # Вершина 0 соединена с 1 и 2
+        [0, 3, 4], # Вершина 1 соединена с 0, 3 и 4
+        [0],       # Вершина 2 соединена с 0
+        [1],       # Вершина 3 соединена с 1
+        [1]        # Вершина 4 соединена с 1
+    ]
+    
+    # Запуск DFS с вершины 0
+    DFS(0, graph)
+
+
+if __name__ == "__main__":
+    main()
 
 ```
 
@@ -2531,76 +2661,57 @@ int main() {
 2. Когда мы дошли до "конечной вершины" — вершины у которой либо нет соседей, либо мы всех посетили, мы добавляем вершину в стек.
 3. Когда такой модифицированный DFS закончил работу, мы достаём вершины из стека в обратном порядке. Всё.
 
-```cpp
-#include <iostream>
-#include <vector>
-#include <stack>
+```python
+from collections import defaultdict
 
-using namespace std;
-
-// Функция для выполнения DFS и формирования топологического порядка
-void DFS(int node, const vector<vector<int>>& graph, vector<bool>& visited, stack<int>& result) {
-    visited[node] = true; // Отмечаем текущую вершину как посещённую
-    cout << "Visited node: " << node << endl;
-
-    // Рекурсивно обходим всех соседей
-    for (int neighbor : graph[node]) {
-        if (!visited[neighbor]) {
-            DFS(neighbor, graph, visited, result);
-        }
-    }
-
-    // После обработки всех соседей добавляем вершину в стек
-    result.push(node);
-}
-
-// Функция для выполнения топологической сортировки
-vector<int> topologicalSort(const vector<vector<int>>& graph) {
-    int graphSize = graph.size();
-    vector<bool> visited(graphSize, false); // Массив для отслеживания посещённых вершин
-    stack<int> result;             // Стек для хранения топологического порядка
-
-    // Запускаем DFS для всех непосещённых вершин
-    for (int i = 0; i < graphSize; i++) {
-        if (!visited[i]) {
-            DFS(i, graph, visited, result);
-        }
-    }
-
-    // Переносим результат из стека в вектор (разворачиваем порядок)
-    vector<int> topologicalOrder;
-    while (!result.empty()) {
-        topologicalOrder.push_back(result.top());
-        result.pop();
-    }
-
-    return topologicalOrder;
-}
-
-int main() {
-    // Пример графа (список смежности)
-    vector<vector<int>> graph = {
-        {1, 2},    // Вершина 0 соединена с 1 и 2
-        {3, 4},    // Вершина 1 соединена с 3 и 4
-        {},        // Вершина 2 не имеет исходящих рёбер
-        {},        // Вершина 3 не имеет исходящих рёбер
-        {}         // Вершина 4 не имеет исходящих рёбер
-    };
-
-    // Выполняем топологическую сортировку
-    vector<int> order = topologicalSort(graph);
-
-    // Вывод результата
-    cout << "Topological order: ";
-    for (int node : order) {
-        cout << node << " ";
-    }
-    cout << endl;
-
-    return 0;
-}
+def DFS(node, graph, visited, result):
+    """Рекурсивный обход в глубину с сохранением топологического порядка"""
+    visited[node] = True
+    print(f"Visited node: {node}")
+    
+    # Рекурсивно обходим всех соседей
+    for neighbor in graph[node]:
+        if not visited[neighbor]:
+            DFS(neighbor, graph, visited, result)
+    
+    # После обработки всех соседей добавляем вершину в стек (результат)
+    result.append(node)
 
 
+def topologicalSort(graph):
+    """Выполняет топологическую сортировку графа"""
+    graphSize = len(graph)
+    visited = [False] * graphSize  # Массив для отслеживания посещённых вершин
+    result = []                    # Список для хранения топологического порядка
+    
+    # Запускаем DFS для всех непосещённых вершин
+    for i in range(graphSize):
+        if not visited[i]:
+            DFS(i, graph, visited, result)
+    
+    # Разворачиваем результат (так как вершины добавлялись в конец)
+    return result[::-1]
+
+
+def main():
+    # Пример графа (список смежности)
+    graph = [
+        [1, 2],    # Вершина 0 соединена с 1 и 2
+        [3, 4],    # Вершина 1 соединена с 3 и 4
+        [],        # Вершина 2 не имеет исходящих рёбер
+        [],        # Вершина 3 не имеет исходящих рёбер
+        []         # Вершина 4 не имеет исходящих рёбер
+    ]
+    
+    # Выполняем топологическую сортировку
+    order = topologicalSort(graph)
+    
+    # Вывод результата
+    print("Topological order:", *order)
+
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## 34. Описание и реализация алгоритма Прима для поиска минимального остовного дерева
@@ -2628,47 +2739,61 @@ int main() {
 
 
 Реализация:
-```cpp
-void MST_PRIM(const vector<vector<pair<int, int>>>& graph, int start) {
-    int n = graph.size(); //количество вершин в графе
-    vector<int> key(n, INT_MAX); //значения ключей вершин
-    vector<int> parent(n, -1);   // массив для хранения родителя каждой вершины
-    vector<bool> inMST(n, false); // Включена ли вершина в остовное дерево
-    key[start] = 0; // Ключ для начальной вершины равным 0
+```python
+import heapq
+import sys
 
-    // Очередь с приоритетами, где храним пары {ключ, вершина}
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-    pq.push({0, start});
+def MST_PRIM(graph, start):
+    """
+    Алгоритм Прима для нахождения минимального остовного дерева
+    
+    Args:
+        graph: список смежности графа в формате [[(вершина, вес), ...], ...]
+        start: начальная вершина
+    """
+    n = len(graph)  # количество вершин в графе
+    key = [sys.maxsize] * n  # значения ключей вершин
+    parent = [-1] * n  # массив для хранения родителя каждой вершины
+    inMST = [False] * n  # включена ли вершина в остовное дерево
+    key[start] = 0  # ключ для начальной вершины равен 0
+    
+    # Очередь с приоритетами, где храним пары (ключ, вершина)
+    pq = []
+    heapq.heappush(pq, (0, start))
+    
+    while pq:  # пока очередь не пуста
+        current_key, u = heapq.heappop(pq)  # извлекаем вершину с минимальным ключом
+        
+        if inMST[u]:
+            continue  # пропускаем уже обработанные вершины
+        
+        inMST[u] = True  # помечаем вершину как включенную в остовное дерево
+        
+        # Обрабатываем соседей вершины u
+        for v, weight in graph[u]:
+            if not inMST[v] and weight < key[v]:
+                parent[v] = u  # обновляем родителя
+                key[v] = weight  # обновляем ключ
+                heapq.heappush(pq, (key[v], v))  # добавляем вершину в очередь
+    
+    # Вывод минимального остовного дерева
+    print("Edge  : Weight")
+    for i in range(n):
+        if parent[i] != -1:
+            print(f"{parent[i]} - {i} : {key[i]}")
 
-    while (!pq.empty()) { // Пока очередь не пуста
-        int u = pq.top().second; // Извлекаем вершину с минимальным ключом
-        pq.pop();
-        if (inMST[u]) continue; // Пропускаем уже обработанные вершины
-        inMST[u] = true; // Помечаем вершину как включенную в остовное дерево
 
-        // Обрабатываем соседей вершины u
-        for (const auto& [v, weight] : graph[u]) {
-            if (!inMST[v] && weight < key[v]) { // Если сосед еще не в дереве и вес меньше текущего ключа
-                parent[v] = u;    // Обновляем родителя
-                key[v] = weight; // Обновляем ключ
-                pq.push({key[v], v}); // Добавляем вершину в очередь
-            }
-        }
-    }
-    // Вывод минимального остовного дерева
-    cout << "Edge  : Weight\n";
-    for (int i = 0; i < n; ++i) {
-        if (parent[i] != -1) {
-            cout << parent[i] << " - " << i << " : " << key[i] << '\n';
-        }
-    }
-}
-
-/*
-priority_queue<T, Container, Compare>
-вкратце, чтобы priority_queue работал по возрастанию:
-greater<>() - объект, сравнивает 2 элемента и если первый элемент больше второго возвращает true
-в данном случае используется чтобы элементы в очереди шли от синимального к максимальному значению. Таким образом минимальный элемент булет извлекаться первым */
+# Пример использования
+if __name__ == "__main__":
+    # Пример графа в формате списка смежности
+    graph = [
+        [(1, 2), (2, 3)],      # вершина 0 соединена с 1 (вес 2) и 2 (вес 3)
+        [(0, 2), (2, 1), (3, 1)], # вершина 1 соединена с 0 (2), 2 (1), 3 (1)
+        [(0, 3), (1, 1), (3, 5)], # вершина 2 соединена с 0 (3), 1 (1), 3 (5)
+        [(1, 1), (2, 5)]       # вершина 3 соединена с 1 (1) и 2 (5)
+    ]
+    
+    MST_PRIM(graph, 0)
 ```
 
 
@@ -2698,63 +2823,72 @@ greater<>() - объект, сравнивает 2 элемента и если 
 ---
 
 #### Реализация:
-```cpp
-// Класс для проверки связей между вершинами
-class UnionFind {
-public:
-       vector<int> parent, rank;
-       
-       UnionFind(int n) 
-       {
-             parent.resize(n);
-             rank.resize(n, 0);
-             for (int i = 0; i < n; ++i) 
-                    parent[i] = i;
-       }
-       
-       int find(int x) 
-       {
-             if (parent[x] != x) 
-                    parent[x] = find(parent[x]);
-             return parent[x]
-       }
+```python
+class UnionFind:
+    """Система непересекающихся множеств для проверки циклов в графе"""
+    def __init__(self, n):
+        self.parent = list(range(n))  # каждый элемент - свой представитель
+        self.rank = [0] * n  # ранг для оптимизации объединения
+    
+    def find(self, x):
+        """Находит представителя множества с применением сжатия пути"""
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def unite(self, x, y):
+        """Объединяет множества, содержащие x и y"""
+        rootX = self.find(x)
+        rootY = self.find(y)
+        
+        if rootX != rootY:
+            # Объединение по рангу для оптимизации
+            if self.rank[rootX] > self.rank[rootY]:
+                self.parent[rootY] = rootX
+            elif self.rank[rootX] < self.rank[rootY]:
+                self.parent[rootX] = rootY
+            else:
+                self.parent[rootY] = rootX
+                self.rank[rootX] += 1
 
-       void unite(int x, int y) 
-       {
-             int rootX = find(x);
-             int rootY = find(y);
-             if (rootX != rootY) 
-             {
-                    if (rank[rootX] > rank[rootY]) 
-                          parent[rootY] = rootX;
-                    else if (rank[rootX] < rank[rootY]) 
-                          parent[rootX] = rootY;
-                    else 
-                    {
-                          parent[rootY] = rootX;
-                          rank[rootX]++;
-                    }
-             }
-       }
-};
 
-// Алгоритм Крускала
-pair<vector<Edge>, int> kruskal(int n, vector<Edge>& edges) 
-{
-	sort(edges.begin(), edges.end());
-	UnionFind uf(n);
-	vector<Edge> mst;
-	int mstWeight = 0;
-	for (const auto& edge : edges) 
-	{         
-// Проверяем, принадлежат ли вершины одного ребра разным компонентам
-		if (uf.find(edge.u) != uf.find(edge.v)) 
-		{
-			uf.unite(edge.u, edge.v); // Объединяем компоненты
-			mst.push_back(edge);      // Добавляем ребро в остовное дерево
-			mstWeight += edge.weight;
-		}
-	}
-	return { mst, mstWeight };
-}
+# Предположим, что Edge определен как класс
+class Edge:
+    def __init__(self, u, v, weight):
+        self.u = u
+        self.v = v
+        self.weight = weight
+    
+    # Метод для сравнения ребер по весу (для сортировки)
+    def __lt__(self, other):
+        return self.weight < other.weight
+
+
+def kruskal(n, edges):
+    """
+    Алгоритм Крускала для нахождения минимального остовного дерева
+    
+    Args:
+        n: количество вершин в графе
+        edges: список ребер графа
+        
+    Returns:
+        Кортеж (минимальное остовное дерево, общий вес)
+    """
+    # Сортируем ребра по весу по возрастанию
+    edges.sort()
+    
+    uf = UnionFind(n)  # создаем систему непересекающихся множеств
+    mst = []  # список ребер минимального остовного дерева
+    mst_weight = 0  # общий вес минимального остовного дерева
+    
+    for edge in edges:
+        # Проверяем, принадлежат ли вершины разным компонентам связности
+        if uf.find(edge.u) != uf.find(edge.v):
+            uf.unite(edge.u, edge.v)  # объединяем компоненты
+            mst.append(edge)  # добавляем ребро в остовное дерево
+            mst_weight += edge.weight
+    
+    return mst, mst_weight
+
 ```
